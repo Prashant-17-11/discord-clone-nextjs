@@ -1,14 +1,14 @@
-import { UserObject } from '@/model/UserObject';
-import { StreamChat } from 'stream-chat';
+import { UserObject } from "@/model/UserObject";
+import { StreamChat } from "stream-chat";
 
 export async function GET() {
   const serverClient = StreamChat.getInstance(
-    '7cu55d72xtjs',
+    "kmk4ajdxxjm9",
     process.env.STREAM_CHAT_SECRET
   );
   const response = await serverClient.queryUsers({});
   const data: UserObject[] = response.users
-    .filter((user) => user.role !== 'admin')
+    .filter((user) => user.role !== "admin")
     .map((user) => {
       return {
         id: user.id,

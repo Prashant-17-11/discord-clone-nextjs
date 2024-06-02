@@ -1,12 +1,12 @@
-import { StreamChat } from 'stream-chat';
+import { StreamChat } from "stream-chat";
 
 export async function POST(request: Request) {
   const serverClient = StreamChat.getInstance(
-    '7cu55d72xtjs',
+    "kmk4ajdxxjm9",
     process.env.STREAM_CHAT_SECRET
   );
   const body = await request.json();
-  console.log('[/api/token] Body:', body);
+  console.log("[/api/token] Body:", body);
 
   const userId = body?.userId;
 
