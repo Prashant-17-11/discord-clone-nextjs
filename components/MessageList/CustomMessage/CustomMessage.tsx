@@ -5,11 +5,9 @@ import {
 } from "stream-chat-react";
 import Image from "next/image";
 import { useState } from "react";
-import { useChatContext } from "stream-chat-react";
 import MessageOptions from "./MessageOptions";
 
 export default function CustomMessage(): JSX.Element {
-  const { client } = useChatContext();
   const { message } = useMessageContext();
   const [showOptions, setShowOptions] = useState(false);
   const [showReactions, setShowReactions] = useState(false);
@@ -18,11 +16,6 @@ export default function CustomMessage(): JSX.Element {
       onMouseEnter={() => setShowOptions(true)}
       onMouseLeave={() => setShowOptions(false)}
       className="flex relative space-x-2 p-2 rounded-md transition-colors ease-in-out duration-200 hover:bg-gray-100"
-      style={
-        client?.user?.id === message?.user?.id
-          ? { flexDirection: "row-reverse" }
-          : {}
-      }
     >
       <Image
         className="rounded-full aspect-square object-cover w-10 h-10 ml-2"
