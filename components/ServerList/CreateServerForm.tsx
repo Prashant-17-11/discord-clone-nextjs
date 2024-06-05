@@ -1,12 +1,12 @@
-import { useDiscordContext } from '@/contexts/DiscordContext';
-import { UserObject } from '@/model/UserObject';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useChatContext } from 'stream-chat-react';
-import UserCard from './UserCard';
-import { useStreamVideoClient } from '@stream-io/video-react-sdk';
+import { useDiscordContext } from "@/contexts/DiscordContext";
+import { UserObject } from "@/model/UserObject";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useChatContext } from "stream-chat-react";
+import UserCard from "./UserCard";
+import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 
 type FormState = {
   serverName: string;
@@ -17,7 +17,7 @@ type FormState = {
 const CreateServerForm = () => {
   // Check if we are shown
   const params = useSearchParams();
-  const showCreateServerForm = params.get('createServer');
+  const showCreateServerForm = params.get("createServer");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const router = useRouter();
 
@@ -26,8 +26,8 @@ const CreateServerForm = () => {
   const videoClient = useStreamVideoClient();
   const { createServer } = useDiscordContext();
   const initialState: FormState = {
-    serverName: '',
-    serverImage: '',
+    serverName: "",
+    serverImage: "",
     users: [],
   };
 
@@ -37,7 +37,7 @@ const CreateServerForm = () => {
   const loadUsers = useCallback(async () => {
     const response = await client.queryUsers({});
     const users: UserObject[] = response.users
-      .filter((user) => user.role !== 'admin')
+      .filter((user) => user.role !== "admin")
       .map((user) => {
         return {
           id: user.id,
@@ -64,65 +64,65 @@ const CreateServerForm = () => {
 
   return (
     <dialog
-      className='absolute py-16 px-20 z-10 space-y-8 rounded-xl'
+      className="absolute py-16 px-20 z-10 space-y-8 rounded-xl"
       ref={dialogRef}
     >
-      <Link href='/' className='absolute right-8 top-8'>
+      <Link href="/" className="absolute right-8 top-8">
         <svg
-          xmlns='http://www.w3.org/2000/svg'
-          fill='none'
-          viewBox='0 0 24 24'
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
           strokeWidth={1.5}
-          stroke='currentColor'
-          className='w-8 h-8 text-gray-500 hover:text-black hover:font-bold'
+          stroke="currentColor"
+          className="w-8 h-8 text-gray-500 hover:text-black hover:font-bold"
         >
           <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            d='M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
       </Link>
-      <h2 className='text-3xl font-bold text-gray-600'>Create new server</h2>
-      <form action={createClicked} className='flex flex-col'>
-        <label className='labelTitle' htmlFor='serverName'>
-          Server Name
+      <h2 className="text-3xl font-bold text-gray-600">New Conversation</h2>
+      <form action={createClicked} className="flex flex-col">
+        <label className="labelTitle" htmlFor="serverName">
+          {formData?.users?.length <= 2 ? "Thread" : "Group"} Name
         </label>
         <input
-          type='text'
-          id='serverName'
-          name='serverName'
+          type="text"
+          id="serverName"
+          name="serverName"
           value={formData.serverName}
           onChange={(e) =>
             setFormData({ ...formData, serverName: e.target.value })
           }
           required
         />
-        <label className='labelTitle' htmlFor='serverImage'>
+        <label className="labelTitle" htmlFor="serverImage">
           Image URL
         </label>
         <input
-          type='text'
-          id='serverImage'
-          name='serverImage'
+          type="text"
+          id="serverImage"
+          name="serverImage"
           value={formData.serverImage}
           onChange={(e) =>
             setFormData({ ...formData, serverImage: e.target.value })
           }
           required
         />
-        <h2 className='mb-2 labelTitle'>Add Users</h2>
-        <div className='max-h-64 overflow-y-scroll my-4'>
+        <h2 className="mb-2 labelTitle">Add Users</h2>
+        <div className="max-h-64 overflow-y-scroll my-4">
           {users.map((user) => (
             <div
               key={user.id}
-              className='flex items-center justify-start w-full space-x-6 my-2'
+              className="flex items-center justify-start w-full space-x-6 my-2"
             >
               <input
-                type='checkbox'
+                type="checkbox"
                 id={user.id}
                 name={user.id}
-                className='w-4 h-4 mb-0'
+                className="w-4 h-4 mb-0"
                 onChange={(event) => userBoxChecked(event.target.checked, user)}
               />
               <UserCard user={user} />
@@ -130,8 +130,8 @@ const CreateServerForm = () => {
           ))}
         </div>
         <button
-          type='submit'
-          className='bg-discord rounded p-3 text-white font-bold uppercase'
+          type="submit"
+          className="bg-discord rounded p-3 text-white font-bold uppercase"
         >
           Create
         </button>
@@ -155,7 +155,7 @@ const CreateServerForm = () => {
 
   function createClicked() {
     if (!videoClient) {
-      console.log('[CreateServerForm] Video client not available');
+      console.log("[CreateServerForm] Video client not available");
       return;
     }
     createServer(
@@ -166,7 +166,7 @@ const CreateServerForm = () => {
       formData.users.map((user) => user.id)
     );
     setFormData(initialState);
-    router.replace('/');
+    router.replace("/");
   }
 };
 export default CreateServerForm;

@@ -1,12 +1,12 @@
-import { useDiscordContext } from '@/contexts/DiscordContext';
-import { UserObject } from '@/model/UserObject';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import { use, useCallback, useEffect, useRef, useState } from 'react';
-import { useChatContext } from 'stream-chat-react';
-import Link from 'next/link';
-import { CloseCircle } from '../Icons';
-import UserRow from './UserRow';
+import { useDiscordContext } from "@/contexts/DiscordContext";
+import { UserObject } from "@/model/UserObject";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { use, useCallback, useEffect, useRef, useState } from "react";
+import { useChatContext } from "stream-chat-react";
+import Link from "next/link";
+import { CloseCircle } from "../Icons";
+import UserRow from "./UserRow";
 
 type FormState = {
   channelName: string;
@@ -16,23 +16,23 @@ type FormState = {
 
 export default function CreateChannelForm(): JSX.Element {
   const params = useSearchParams();
-  const showCreateChannelForm = params.get('createChannel');
-  const category = params.get('category');
+  const showCreateChannelForm = params.get("createChannel");
+  const category = params.get("category");
   const dialogRef = useRef<HTMLDialogElement>(null);
   const router = useRouter();
 
   const { client } = useChatContext();
   const { createChannel } = useDiscordContext();
   const initialState: FormState = {
-    channelName: '',
-    category: category ?? '',
+    channelName: "",
+    category: category ?? "",
     users: [],
   };
   const [formData, setFormData] = useState<FormState>(initialState);
   const [users, setUsers] = useState<UserObject[]>([]);
 
   const loadUsers = useCallback(async () => {
-    const response = await fetch('/api/users');
+    const response = await fetch("/api/users");
     const data = (await response.json())?.data as UserObject[];
     if (data) setUsers(data);
   }, []);
@@ -51,53 +51,53 @@ export default function CreateChannelForm(): JSX.Element {
 
   return (
     <dialog
-      className='absolute py-16 px-20 z-10 space-y-8 rounded-xl'
+      className="absolute py-16 px-20 z-10 space-y-8 rounded-xl"
       ref={dialogRef}
     >
-      <Link href='/' className='absolute right-8 top-8'>
+      <Link href="/" className="absolute right-8 top-8">
         <CloseCircle />
       </Link>
-      <h2 className='text-3xl font-bold text-gray-600'>Create new channel</h2>
-      <form method='dialog' className='flex flex-col'>
-        <label className='labelTitle' htmlFor='channelName'>
-          Channel Name
+      <h2 className="text-3xl font-bold text-gray-600">Add New Interests</h2>
+      <form method="dialog" className="flex flex-col">
+        <label className="labelTitle" htmlFor="channelName">
+          Interest Thread Name
         </label>
         <input
-          type='text'
-          id='channelName'
-          name='channelName'
+          type="text"
+          id="channelName"
+          name="channelName"
           value={formData.channelName}
           onChange={(e) =>
             setFormData({ ...formData, channelName: e.target.value })
           }
         />
         <label
-          className='labelTitle flex items-center justify-between'
-          htmlFor='category'
+          className="labelTitle flex items-center justify-between"
+          htmlFor="category"
         >
           Category
         </label>
         <input
-          type='text'
-          id='category'
-          name='category'
+          type="text"
+          id="category"
+          name="category"
           value={formData.category}
           onChange={(e) =>
             setFormData({ ...formData, category: e.target.value })
           }
         />
-        <h2 className='mb-2 labelTitle'>Add Users</h2>
-        <div className='max-h-64 overflow-y-scroll'>
+        <h2 className="mb-2 labelTitle">Add Users</h2>
+        <div className="max-h-64 overflow-y-scroll">
           {users.map((user) => (
             <UserRow user={user} userChanged={userChanged} key={user.id} />
           ))}
         </div>
 
         <button
-          type='submit'
+          type="submit"
           disabled={buttonDisabled()}
           className={`bg-discord rounded p-3 text-white font-bold uppercase ${
-            buttonDisabled() ? 'opacity-50 cursor-not-allowed' : ''
+            buttonDisabled() ? "opacity-50 cursor-not-allowed" : ""
           }`}
           onClick={createClicked}
         >
@@ -135,6 +135,6 @@ export default function CreateChannelForm(): JSX.Element {
       formData.users.map((user) => user.id)
     );
     setFormData(initialState);
-    router.replace('/');
+    router.replace("/");
   }
 }
