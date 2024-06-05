@@ -67,10 +67,12 @@ export default function MyChat({
               reactionOptions={customReactionOptions}
               HeaderComponent={CustomChannelHeader}
             >
-              <Window>
-                <MessageList />
-                <MessageInput />
-              </Window>
+              <div style={{ maxHeight: "100vh", minWidth: "80vw" }}>
+                <Window>
+                  <MessageList />
+                  <MessageInput />
+                </Window>
+              </div>
               <Thread />
             </Channel>
           )}
